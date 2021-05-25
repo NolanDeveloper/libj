@@ -3,7 +3,6 @@
 #include <libutf.h>
 
 #include <assert.h>
-#include <uchar.h>
 
 #define INDENT_PLACEHOLDER "$"
 
@@ -105,8 +104,8 @@ static LibjError append_string(Libj *libj, LibjString string) {
     for (char *p = string.value, *end = string.value + string.size; p != end; ++p) {
         char c = *p;
         if (libj->to_string_options->ascii_only) {
-            char16_t c16[2];
-            char32_t c32;
+            uint_least16_t c16[2];
+            uint_least32_t c32;
             LibutfC8Type type = libutf_c8_type(c);
             if (type < 0) {
                 err = LIBJ_ERROR_SYNTAX;

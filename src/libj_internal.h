@@ -1,8 +1,6 @@
 #ifndef LIBJ_INTERNAL_H
 #define LIBJ_INTERNAL_H
 
-#include <uchar.h>
-
 #include <libj.h>
 #include <libsb.h>
 #include <libgb.h>

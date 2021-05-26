@@ -3,6 +3,7 @@
 #include <libutf.h>
 
 #include <assert.h>
+#include <locale.h>
 
 #define INDENT_PLACEHOLDER "$"
 
@@ -168,6 +169,32 @@ end:
     return err;
 }
 
+static LibjError append_number(Libj *libj, const char *number) {
+    LibjError err = LIBJ_ERROR_OK;
+    LibsbBuilder *builder = NULL;
+    char *good_number = NULL; // number with locale dependent decimal comma replaced with '.'
+    size_t good_number_size = 0;
+    if (!libj || !number) {
+        err = LIBJ_ERROR_BAD_ARGUMENT;
+        goto end;
+    }
+    err = ESB(libsb_create(libj->libsb, &builder));
+    if (err) goto end;
+    err = ESB(libsb_append(libj->libsb, builder, "%s", number));
+    if (err) goto end;
+    struct lconv * lconv = localeconv();
+    err = ESB(libsb_replace(libj->libsb, builder, lconv->decimal_point, "."));
+    if (err) goto end;
+    err = ESB(libsb_destroy_into(libj->libsb, &builder, &good_number, &good_number_size));
+    if (err) goto end;
+    err = E(append_fragment(libj, "%s", good_number));
+    if (err) goto end;
+end:
+    free(good_number);
+    ESB(libsb_destroy(libj->libsb, &builder));
+    return err;
+}
+
 static LibjError append_json(Libj *libj, LibjJson *json);
 
 static LibjError append_object(Libj *libj, LibjJson *json) {
@@ -267,7 +294,7 @@ static LibjError append_json(Libj *libj, LibjJson *json) {
         err = E(append_string(libj, json->string));
         break;
     case LIBJ_TYPE_NUMBER:
-        err = E(append_fragment(libj, "%s", json->string.value));
+        err = E(append_number(libj, json->string.value));
         break;
     case LIBJ_TYPE_BOOL:
         err = E(append_fragment(libj, "%s", json->boolean ? "true" : "false"));

@@ -1,5 +1,46 @@
 #include "test.h"
 
+#define assert_not_null(pointer) \
+    do { \
+        if (NULL == (pointer)) { \
+            printf("At " __FILE__ ":%d\n",  __LINE__); \
+            printf("Assertion failed: value is NULL: %s\n", #pointer); \
+            abort(); \
+        } \
+    } while (0)
+
+#define assert_equal_int(expected, actual) \
+    do { \
+        if ((expected) != (actual)) { \
+            printf("At " __FILE__ ":%d\n",  __LINE__); \
+            printf("Assertion failed for expression: %s\n", #actual); \
+            printf("Expected value: %d\n", (int) (expected)); \
+            printf("Actual   value: %d\n", (int) (actual)); \
+            abort(); \
+        } \
+    } while (0)
+
+#define assert_equal_double(expected, actual) \
+    do { \
+        if (fabsl((expected) - (actual)) > 1e-6) { \
+            printf("At " __FILE__ ":%d\n",  __LINE__); \
+            printf("Assertion failed for expression: %s\n", #actual); \
+            printf("Expected value: %lf\n", (double) (expected)); \
+            printf("Actual   value: %lf\n", (double) (actual)); \
+            abort(); \
+        } \
+    } while (0)
+
+#define assert_equal_string(expected, actual) \
+    do { \
+        if (strcmp((expected), (actual))) { \
+            printf("At " __FILE__ ":%d\n",  __LINE__); \
+            printf("Assertion failed for expression: %s\n", #actual); \
+            printf("Expected value: %s\n", (expected)); \
+            printf("Actual   value: %s\n", (actual)); \
+        } \
+    } while (0)
+
 static LibjJson *create_object(void) {
     LibjJson *object = NULL;
     E(libj_object_create(libj, &object));
@@ -69,25 +110,25 @@ void sanity_check(void) {
 
     char *json_string;
     E(libj_to_string(libj, json, &json_string, &libj_to_string_options_compact));
-    assert(json_string);
+    assert_not_null(json_string);
     free(json_string);
 
     long double number;
 
     E(libj_object_get_real(libj, json, &number, "age"));
-    assert(42 == number);
+    assert_equal_double(42.0, number);
 
     E(libj_object_get_real(libj, json, &number, "pi"));
-    assert(fabsl(3.14 - number) < 1e-8);
+    assert_equal_double(3.14, number);
 
     E(libj_object_get_real(libj, json, &number, "object", "x"));
-    assert(fabsl(0.1 - number) < 1e-8);
+    assert_equal_double(0.1, number);
 
     E(libj_object_get_real(libj, json, &number, "object", "y"));
-    assert(fabsl(0.5 - number) < 1e-8);
+    assert_equal_double(0.5, number);
 
     E(libj_object_get_real(libj, json, &number, "object", "z"));
-    assert(fabsl(0.7 - number) < 1e-8);
+    assert_equal_double(0.7, number);
 
     E(libj_object_get_real(libj, json, &number, "object", "big"));
 //    assert(DBL_MAX == number);
@@ -110,7 +151,7 @@ void sanity_check(void) {
     const char *error_string;
     E(libj_from_string(libj, &json_from_string, str1, &error_string));
     E(libj_to_string(libj, json_from_string, &str2, &libj_to_string_options_pretty));
-    assert(!strcmp(str1, str2));
+    assert_equal_string(str1, str2);
     free(str1);
     free(str2);
     E(libj_free_json(libj, &json_from_string));
@@ -131,7 +172,7 @@ void sanity_check(void) {
     char *value;
     size_t value_size;
     E(libj_get_string_ex(libj, json_with_escape, &value, &value_size));
-    assert(value_size == sizeof(value_str) - 1);
+    assert_equal_int(sizeof(value_str) - 1, value_size);
     assert(!memcmp(value, value_str, value_size));
 
     E(libj_free_json(libj, &json_with_escape));

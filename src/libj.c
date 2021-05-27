@@ -409,7 +409,7 @@ end:
 	return err;
 }
 
-LibjError libj_object_add_real(Libj *libj, LibjJson *json, const char *name, long double value) {
+LibjError libj_object_add_real(Libj *libj, LibjJson *json, const char *name, double value) {
 	LibjError err = LIBJ_ERROR_OK;
 	LibjJson *json_value = NULL;
 	if (!libj || !json || !name) {
@@ -737,7 +737,7 @@ libj_object_get_integer_or_default_v(Libj *libj, LibjJson *json, intmax_t *value
 	return err;
 }
 
-LibjError libj_object_get_real_(Libj *libj, LibjJson *json, long double *value, const char *name, ...) {
+LibjError libj_object_get_real_(Libj *libj, LibjJson *json, double *value, const char *name, ...) {
 	va_list args;
 	va_start(args, name);
 	LibjError err = libj_object_get_real_v(libj, json, value, name, args);
@@ -745,7 +745,7 @@ LibjError libj_object_get_real_(Libj *libj, LibjJson *json, long double *value, 
 	return err;
 }
 
-LibjError libj_object_get_real_v(Libj *libj, LibjJson *json, long double *value, const char *name, va_list args) {
+LibjError libj_object_get_real_v(Libj *libj, LibjJson *json, double *value, const char *name, va_list args) {
 	LibjError err = LIBJ_ERROR_OK;
 	if (!libj || !json || !value || !name) {
 		err = LIBJ_ERROR_BAD_TYPE;
@@ -765,7 +765,7 @@ end:
 }
 
 LibjError
-libj_object_get_real_or_default_(Libj *libj, LibjJson *json, long double *value, long double default_value,
+libj_object_get_real_or_default_(Libj *libj, LibjJson *json, double *value, double default_value,
                                  const char *name, ...) {
 	va_list args;
 	va_start(args, name);
@@ -775,7 +775,7 @@ libj_object_get_real_or_default_(Libj *libj, LibjJson *json, long double *value,
 }
 
 LibjError
-libj_object_get_real_or_default_v(Libj *libj, LibjJson *json, long double *value, long double default_value,
+libj_object_get_real_or_default_v(Libj *libj, LibjJson *json, double *value, double default_value,
 								  const char *name, va_list args) {
 	LibjError err = libj_object_get_real_v(libj, json, value, name, args);
 	if (LIBJ_ERROR_NOT_FOUND == err) {
@@ -1008,7 +1008,7 @@ end:
     return err;
 }
 
-LibjError libj_object_set_real(Libj *libj, LibjJson *json, const char *name, long double value) {
+LibjError libj_object_set_real(Libj *libj, LibjJson *json, const char *name, double value) {
     LibjError err = LIBJ_ERROR_OK;
     LibjJson *json_value = NULL;
     if (!libj || !json || !name) {
@@ -1286,7 +1286,7 @@ LibjError libj_array_add_integer(Libj *libj, LibjJson *json, intmax_t value) {
     return err;
 }
 
-LibjError libj_array_add_real(Libj *libj, LibjJson *json, long double value) {
+LibjError libj_array_add_real(Libj *libj, LibjJson *json, double value) {
     LibjError err = LIBJ_ERROR_OK;
     LibjJson *json_value = NULL;
     if (!libj || !json) {
@@ -1476,7 +1476,7 @@ end:
 	return err;
 }
 
-LibjError libj_get_real(Libj *libj, LibjJson *json, long double *value) {
+LibjError libj_get_real(Libj *libj, LibjJson *json, double *value) {
 	LibjError err = LIBJ_ERROR_OK;
 	if (!libj || !json || !value) {
 		err = LIBJ_ERROR_BAD_ARGUMENT;
@@ -1489,7 +1489,6 @@ LibjError libj_get_real(Libj *libj, LibjJson *json, long double *value) {
 	*value = 0;
     char *endptr;
     *value = strtod(json->string.value, &endptr);
-    printf("DEBUG: strtod(\"%s\") -> %Lg\n", json->string.value, *value);
     if (endptr != json->string.value + json->string.size) {
         err = LIBJ_ERROR_SYNTAX;
         goto end;
@@ -1624,7 +1623,7 @@ end:
 	return err;
 }
 
-LibjError libj_real_create(Libj *libj, LibjJson **json, long double value) {
+LibjError libj_real_create(Libj *libj, LibjJson **json, double value) {
 	LibjError err = LIBJ_ERROR_OK;
 	LibjJson *result = NULL;
     LibsbBuilder *builder = NULL;
@@ -1639,7 +1638,7 @@ LibjError libj_real_create(Libj *libj, LibjJson **json, long double value) {
 	}
     err = ESB(libsb_create(libj->libsb, &builder));
     if (err) goto end;
-    err = ESB(libsb_append(libj->libsb, builder, "%Lg", value));
+    err = ESB(libsb_append(libj->libsb, builder, "%lg", value));
     if (err) goto end;
     err = ESB(libsb_destroy_into(libj->libsb, &builder, &result->string.value, &result->string.size));
     if (err) goto end;

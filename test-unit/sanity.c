@@ -113,7 +113,7 @@ void sanity_check(void) {
     assert_not_null(json_string);
     free(json_string);
 
-    long double number;
+    double number;
 
     E(libj_object_get_real(libj, json, &number, "age"));
     assert_equal_double(42.0, number);

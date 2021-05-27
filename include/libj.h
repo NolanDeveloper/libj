@@ -117,7 +117,7 @@ LibjError libj_object_add_string(Libj *libj, LibjJson *json, const char *name, c
 
 LibjError libj_object_add_integer(Libj *libj, LibjJson *json, const char *name, intmax_t value);
 
-LibjError libj_object_add_real(Libj *libj, LibjJson *json, const char *name, long double value);
+LibjError libj_object_add_real(Libj *libj, LibjJson *json, const char *name, double value);
 
 LibjError libj_object_add_number(Libj *libj, LibjJson *json, const char *name, const char *value);
 
@@ -169,17 +169,17 @@ LibjError libj_object_get_integer_or_default_v(
 
 #define libj_object_get_real(...) libj_object_get_real_(__VA_ARGS__, NULL)
 
-LibjError libj_object_get_real_(Libj *libj, LibjJson *json, long double *value, const char *name, ...);
+LibjError libj_object_get_real_(Libj *libj, LibjJson *json, double *value, const char *name, ...);
 
-LibjError libj_object_get_real_v(Libj *libj, LibjJson *json, long double *value, const char *name, va_list args);
+LibjError libj_object_get_real_v(Libj *libj, LibjJson *json, double *value, const char *name, va_list args);
 
 #define libj_object_get_real_or_default(...) libj_object_get_real_or_default_(__VA_ARGS__, NULL)
 
 LibjError libj_object_get_real_or_default_(
-        Libj *libj, LibjJson *json, long double *value, long double default_value, const char *name, ...);
+        Libj *libj, LibjJson *json, double *value, double default_value, const char *name, ...);
 
 LibjError libj_object_get_real_or_default_v(
-        Libj *libj, LibjJson *json, long double *value, long double default_value, const char *name, va_list args);
+        Libj *libj, LibjJson *json, double *value, double default_value, const char *name, va_list args);
 
 #define libj_object_get_number(...) libj_object_get_number_(__VA_ARGS__, NULL)
 
@@ -225,7 +225,7 @@ LibjError libj_object_set_bool(Libj *libj, LibjJson *json, const char *name, boo
 
 LibjError libj_object_set_integer(Libj *libj, LibjJson *json, const char *name, intmax_t value);
 
-LibjError libj_object_set_real(Libj *libj, LibjJson *json, const char *name, long double value);
+LibjError libj_object_set_real(Libj *libj, LibjJson *json, const char *name, double value);
 
 LibjError libj_object_set_string(Libj *libj, LibjJson *json, const char *name, const char *value);
 
@@ -256,7 +256,7 @@ LibjError libj_array_add_string(Libj *libj, LibjJson *json, const char *value);
 
 LibjError libj_array_add_integer(Libj *libj, LibjJson *json, intmax_t value);
 
-LibjError libj_array_add_real(Libj *libj, LibjJson *json, long double value);
+LibjError libj_array_add_real(Libj *libj, LibjJson *json, double value);
 
 LibjError libj_array_add_number(Libj *libj, LibjJson *json, const char *value);
 
@@ -274,7 +274,7 @@ LibjError libj_array_remove_at(Libj *libj, LibjJson *json, size_t index);
 
 LibjError libj_get_integer(Libj *libj, LibjJson *json, intmax_t *value);
 
-LibjError libj_get_real(Libj *libj, LibjJson *json, long double *value);
+LibjError libj_get_real(Libj *libj, LibjJson *json, double *value);
 
 LibjError libj_get_number(Libj *libj, LibjJson *json, char **value);
 
@@ -290,7 +290,7 @@ LibjError libj_string_create_ex(Libj *libj, LibjJson **json, const char *value, 
 
 LibjError libj_integer_create(Libj *libj, LibjJson **json, intmax_t value);
 
-LibjError libj_real_create(Libj *libj, LibjJson **json, long double value);
+LibjError libj_real_create(Libj *libj, LibjJson **json, double value);
 
 LibjError libj_number_create(Libj *libj, LibjJson **json, const char *value);
 

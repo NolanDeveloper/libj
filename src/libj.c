@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <locale.h>
 
 LibjError libsberror_to_libjerror(LibsbError err) {
     switch (err) {

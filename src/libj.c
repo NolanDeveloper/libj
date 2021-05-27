@@ -1489,6 +1489,7 @@ LibjError libj_get_real(Libj *libj, LibjJson *json, long double *value) {
 	*value = 0;
     char *endptr;
     *value = strtod(json->string.value, &endptr);
+    printf("DEBUG: strtod(\"%s\") -> %Lg\n", json->string.value, *value);
     if (endptr != json->string.value + json->string.size) {
         err = LIBJ_ERROR_SYNTAX;
         goto end;

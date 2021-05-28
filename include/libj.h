@@ -33,8 +33,7 @@ typedef enum {
     LIBJ_DECLARE_ERROR(PRECISION, "Value can't be stored without loss of precision") \
     LIBJ_DECLARE_ERROR(SYNTAX, "Json syntax error or UTF-8 encoding error") \
     LIBJ_DECLARE_ERROR(IO, "Input/Output error") \
-    LIBJ_DECLARE_ERROR(ZERO, "Value contains '\0'") \
-    LIBJ_DECLARE_ERROR(UNKNOWN, "Unknown error")
+    LIBJ_DECLARE_ERROR(ZERO, "Value contains '\0'")
 
 #define LIBJ_DECLARE_ERROR(name, description) LIBJ_ERROR_##name,
     LIBJ_ERRORS

@@ -26,7 +26,7 @@ static LibjError errorf(Libj *libj, const char *format, ...) {
     err = ESB(libsb_destroy_into(libj->libsb, &builder, &libj->error_string, &error_string_size));
     if (err) goto end;
 end:
-    ESB(libsb_destroy(libj->libsb, &builder));
+    if (libj) ESB(libsb_destroy(libj->libsb, &builder));
     va_end(args);
     return err;
 }
@@ -86,6 +86,7 @@ LibjError libj_parse_value_object(Libj *libj, LibjJson **json, LibisInputStream 
     ++libj->depth;
     for (;;) {
         err = E(libj_parse_value_string(libj, &name, input));
+        assert((bool) err != (bool) name);
         if (err) goto end;
         err = E(libj_skip_literal(libj, input, ":"));
         if (err) goto end;
@@ -275,6 +276,7 @@ static LibjError consume_hex(Libj *libj, LibisInputStream *input, int *value) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
     }
+    *value = 0;
     err = EIS(libis_lookahead(libj->libis, input, &eof, 1, &c));
     if (err) goto end;
     if ('0' <= c && c <= '9') {
@@ -312,7 +314,7 @@ end:
     return err;
 }
 
-char escape(char c) {
+static char escape(char c) {
     switch (c) {
     case '\\':
         return '\\';
@@ -422,6 +424,7 @@ LibjError libj_parse_value_string(Libj *libj, LibjJson **json, LibisInputStream 
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
     }
+    *json = NULL;
     err = E(libj_skip_literal(libj, input, "\""));
     if (err) goto end;
     err = EGB(libgb_create(libj->libgb, &buffer));
@@ -467,7 +470,7 @@ LibjError libj_parse_value_string(Libj *libj, LibjJson **json, LibisInputStream 
     }
 end:
     free(string_value);
-    EGB(libgb_destroy(libj->libgb, &buffer));
+    if (libj) EGB(libgb_destroy(libj->libgb, &buffer));
     return err;
 }
 
@@ -719,7 +722,7 @@ LibjError libj_from_string(Libj *libj, LibjJson **json, const char *input_string
     err = E(libj_from_input_stream(libj, json, input, error_string));
     if (err) goto end;
 end:
-    EIS(libis_destroy(libj->libis, &input));
+    if (libj) EIS(libis_destroy(libj->libis, &input));
     return err;
 }
 

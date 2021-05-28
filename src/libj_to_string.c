@@ -86,8 +86,10 @@ static LibjError append_fragment(Libj *libj, const char *format, ...) {
     err = ESB(libsb_append(libj->libsb, libj->builder, "%s", fragment));
     if (err) goto end;
 end:
-    ESB(libsb_destroy(libj->libsb, &indent_builder));
-    ESB(libsb_destroy(libj->libsb, &fragment_builder));
+    if (libj) {
+        ESB(libsb_destroy(libj->libsb, &indent_builder));
+        ESB(libsb_destroy(libj->libsb, &fragment_builder));
+    }
     free(fragment);
     free(indent);
     va_end(args);
@@ -335,8 +337,10 @@ LibjError libj_to_string_ex(Libj *libj, LibjJson *json, char **json_string, size
     ESB(libsb_destroy_into(libj->libsb, &libj->builder, json_string, json_string_size));
     libj->builder = NULL;
 end:
-    libj->depth = 0;
-    libj->to_string_options = NULL;
-    ESB(libsb_destroy(libj->libsb, &libj->builder));
+    if (libj) {
+        libj->depth = 0;
+        libj->to_string_options = NULL;
+        ESB(libsb_destroy(libj->libsb, &libj->builder));
+    }
     return err;
 }

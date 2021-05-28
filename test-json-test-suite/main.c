@@ -77,11 +77,14 @@ static bool read_file(const char *filename, char **bytes, size_t *size) {
     fseek(f, 0, SEEK_SET);
     *bytes = malloc(*size + 1);
     if (!*bytes) {
+        fclose(f);
         return false;
     }
     size_t n = fread(*bytes, 1, *size, f);
     if (n != *size) {
         free(*bytes);
+        *bytes = NULL;
+        fclose(f);
         return false;
     }
     fclose(f);

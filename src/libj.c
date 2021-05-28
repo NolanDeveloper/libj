@@ -68,8 +68,6 @@ LibjError libj_handle_internal_error(LibjError err) {
         return LIBJ_ERROR_PRECISION;
     case LIBJ_ERROR_SYNTAX:
         return LIBJ_ERROR_SYNTAX;
-    case LIBJ_ERROR_UNKNOWN:
-        return LIBJ_ERROR_UNKNOWN;
     case LIBJ_ERROR_IO:
         return LIBJ_ERROR_IO;
     case LIBJ_ERROR_ZERO:
@@ -249,7 +247,7 @@ static LibjError copy_array(Libj *libj, LibjArray *source, LibjArray *target) {
         goto end;
     }
     result.size = source->size;
-    result.elements = malloc(source->size * sizeof(LibjJson));
+    result.elements = malloc(source->size * sizeof(LibjJson *));
     if (!result.elements) {
         err = LIBJ_ERROR_OUT_OF_MEMORY;
         goto end;
@@ -535,19 +533,10 @@ end:
 }
 
 LibjError libj_object_count_versions(Libj *libj, LibjJson *json, const char *name, size_t *nversions) {
-    LibjError err = LIBJ_ERROR_OK;
-    if (!libj || !json || !nversions) {
-        err = LIBJ_ERROR_BAD_ARGUMENT;
-        goto end;
+    if (!name) {
+        return LIBJ_ERROR_BAD_ARGUMENT;
     }
-    if (LIBJ_TYPE_OBJECT != json->type) {
-        err = LIBJ_ERROR_BAD_TYPE;
-        goto end;
-    }
-    err = E(libj_object_count_versions_ex(libj, json, name, strlen(name), nversions));
-    if (err) goto end;
-end:
-    return err;
+    return libj_object_count_versions_ex(libj, json, name, strlen(name), nversions);
 }
 
 LibjError libj_object_count_versions_ex(

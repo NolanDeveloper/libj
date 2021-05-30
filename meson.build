@@ -6,29 +6,10 @@ include_directories = include_directories('include')
 
 install_headers('include/libj.h')
 
-libis_dep = dependency('is', required: false)
-if not libis_dep.found()
-  libis_proj = subproject('libis')
-  libis_dep = libis_proj.get_variable('libis_dep')
-endif
-
-libgb_dep = dependency('gb', required: false)
-if not libgb_dep.found()
-  libgb_proj = subproject('libgb')
-  libgb_dep = libgb_proj.get_variable('libgb_dep')
-endif
-
-libsb_dep = dependency('sb', required: false)
-if not libsb_dep.found()
-  libsb_proj = subproject('libsb')
-  libsb_dep = libsb_proj.get_variable('libsb_dep')
-endif
-
-libutf_dep = dependency('utf', required: false)
-if not libutf_dep.found()
-  libutf_proj = subproject('libutf')
-  libutf_dep = libutf_proj.get_variable('libutf_dep')
-endif
+libis_dep = dependency('is', fallback: ['libis', 'libis_dep'])
+libgb_dep = dependency('gb', fallback: ['libgb', 'libgb_dep'])
+libsb_dep = dependency('sb', fallback: ['libsb', 'libsb_dep'])
+libutf_dep = dependency('utf', fallback: ['libutf', 'libutf_dep'])
 
 dependencies = [
   libis_dep,

@@ -40,7 +40,7 @@ typedef enum {
 #undef LIBJ_DECLARE_ERROR
 } LibjError;
 
-/* Options for libj_to_string. The string "$(INDENT)" will be replaced
+/* Options for libj_to_string. The string "$" will be replaced
  * with LibjToStringOptions::indent_string repeated as many times as current
  * nesting level. */
 typedef struct {

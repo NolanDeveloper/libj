@@ -132,35 +132,66 @@ end:
     return err;
 }
 
+static struct {
+    LibjType type;
+    const char *name;
+} table_type_to_string[] = {
+        { LIBJ_TYPE_NULL, "null" },
+        { LIBJ_TYPE_STRING, "string" },
+        { LIBJ_TYPE_NUMBER, "number" },
+        { LIBJ_TYPE_BOOL, "bool" },
+        { LIBJ_TYPE_ARRAY, "array" },
+        { LIBJ_TYPE_OBJECT, "object" },
+};
+
 const char *libj_type_to_string(LibjType type) {
-    switch (type) {
-#define LIBJ_DECLARE_TYPE(name) case LIBJ_TYPE_##name: return #name;
-    LIBJ_TYPES
-#undef LIBJ_DECLARE_TYPE
+    for (size_t i = 0; i < sizeof(table_type_to_string) / sizeof(*table_type_to_string); ++i) {
+        if (type == table_type_to_string[i].type) {
+            return table_type_to_string[i].name;
+        }
     }
     abort();
 }
 
 LibjType libj_string_to_type(const char *string) {
-#define LIBJ_DECLARE_TYPE(name) if (!strcmp(string, #name)) return LIBJ_TYPE_##name;
-    LIBJ_TYPES
-#undef LIBJ_DECLARE_TYPE
+    for (size_t i = 0; i < sizeof(table_type_to_string) / sizeof(*table_type_to_string); ++i) {
+        if (!strcmp(string, table_type_to_string[i].name)) {
+            return table_type_to_string[i].type;
+        }
+    }
     abort();
 }
 
+static struct {
+    LibjError error;
+    const char *name;
+} table_libj_error_to_string[] = {
+        { LIBJ_ERROR_OK, "No error" },
+        { LIBJ_ERROR_OUT_OF_MEMORY, "Out of memory" },
+        { LIBJ_ERROR_BAD_TYPE, "Argument has incorrect type" },
+        { LIBJ_ERROR_BAD_ARGUMENT, "Argument has incorrect value" },
+        { LIBJ_ERROR_NOT_FOUND, "Value not found" },
+        { LIBJ_ERROR_PRECISION, "Value can't be stored without loss of precision" },
+        { LIBJ_ERROR_SYNTAX, "Json syntax error or UTF-8 encoding error" },
+        { LIBJ_ERROR_IO, "Input/Output error" },
+        { LIBJ_ERROR_ZERO, "Value contains '\\0'" },
+};
+
 const char *libj_error_to_string(LibjError error) {
-    switch (error) {
-#define LIBJ_DECLARE_ERROR(name, description) case LIBJ_ERROR_##name: return "LIBJ_ERROR_"#name;
-    LIBJ_ERRORS
-#undef LIBJ_DECLARE_ERROR
+    for (size_t i = 0; i < sizeof(table_libj_error_to_string) / sizeof(*table_libj_error_to_string); ++i) {
+        if (error == table_libj_error_to_string[i].error) {
+            return table_libj_error_to_string[i].name;
+        }
     }
     abort();
 }
 
 LibjError libj_string_to_error(const char *string) {
-#define LIBJ_DECLARE_ERROR(name, description) if (!strcmp(string, "LIBJ_ERROR_"#name)) return LIBJ_ERROR_##name;
-    LIBJ_ERRORS
-#undef LIBJ_DECLARE_ERROR
+    for (size_t i = 0; i < sizeof(table_libj_error_to_string) / sizeof(*table_libj_error_to_string); ++i) {
+        if (!strcmp(string, table_libj_error_to_string[i].name)) {
+            return table_libj_error_to_string[i].error;
+        }
+    }
     abort();
 }
 

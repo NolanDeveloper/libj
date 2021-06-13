@@ -9,35 +9,25 @@
 
 /* Type of json. */
 typedef enum {
-#define LIBJ_TYPES \
-    LIBJ_DECLARE_TYPE(NULL) \
-    LIBJ_DECLARE_TYPE(STRING) \
-    LIBJ_DECLARE_TYPE(NUMBER) \
-    LIBJ_DECLARE_TYPE(BOOL) \
-    LIBJ_DECLARE_TYPE(ARRAY) \
-    LIBJ_DECLARE_TYPE(OBJECT)
-
-#define LIBJ_DECLARE_TYPE(name) LIBJ_TYPE_##name,
-    LIBJ_TYPES
-#undef LIBJ_DECLARE_TYPE
+    LIBJ_TYPE_NULL,
+    LIBJ_TYPE_STRING,
+    LIBJ_TYPE_NUMBER,
+    LIBJ_TYPE_BOOL,
+    LIBJ_TYPE_ARRAY,
+    LIBJ_TYPE_OBJECT,
 } LibjType;
 
 /* Error type. */
 typedef enum {
-#define LIBJ_ERRORS \
-    LIBJ_DECLARE_ERROR(OK, "No error") \
-    LIBJ_DECLARE_ERROR(OUT_OF_MEMORY, "Out of memory") \
-    LIBJ_DECLARE_ERROR(BAD_TYPE, "Argument has incorrect type") \
-    LIBJ_DECLARE_ERROR(BAD_ARGUMENT, "Argument has incorrect value") \
-    LIBJ_DECLARE_ERROR(NOT_FOUND, "Value not found") \
-    LIBJ_DECLARE_ERROR(PRECISION, "Value can't be stored without loss of precision") \
-    LIBJ_DECLARE_ERROR(SYNTAX, "Json syntax error or UTF-8 encoding error") \
-    LIBJ_DECLARE_ERROR(IO, "Input/Output error") \
-    LIBJ_DECLARE_ERROR(ZERO, "Value contains '\0'")
-
-#define LIBJ_DECLARE_ERROR(name, description) LIBJ_ERROR_##name,
-    LIBJ_ERRORS
-#undef LIBJ_DECLARE_ERROR
+    LIBJ_ERROR_OK,
+    LIBJ_ERROR_OUT_OF_MEMORY,
+    LIBJ_ERROR_BAD_TYPE,
+    LIBJ_ERROR_BAD_ARGUMENT,
+    LIBJ_ERROR_NOT_FOUND,
+    LIBJ_ERROR_PRECISION,
+    LIBJ_ERROR_SYNTAX,
+    LIBJ_ERROR_IO,
+    LIBJ_ERROR_ZERO,
 } LibjError;
 
 /* Options for libj_to_string. The string "$" will be replaced

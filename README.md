@@ -1,5 +1,7 @@
 # libj 
 
+![ci-tests-status](https://github.com/NolanRus/libj/actions/workflows/main.yml/badge.svg)
+
 libj is json library.
 
 Main features:

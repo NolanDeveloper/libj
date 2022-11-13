@@ -5,7 +5,7 @@
         if (NULL == (pointer)) { \
             printf("At " __FILE__ ":%d\n",  __LINE__); \
             printf("Assertion failed: value is NULL: %s\n", #pointer); \
-            abort(); \
+            exit(1); \
         } \
     } while (0)
 
@@ -16,7 +16,7 @@
             printf("Assertion failed for expression: %s\n", #actual); \
             printf("Expected value: %d\n", (int) (expected)); \
             printf("Actual   value: %d\n", (int) (actual)); \
-            abort(); \
+            exit(1); \
         } \
     } while (0)
 
@@ -27,7 +27,7 @@
             printf("Assertion failed for expression: %s\n", #actual); \
             printf("Expected value: %lf\n", (double) (expected)); \
             printf("Actual   value: %lf\n", (double) (actual)); \
-            abort(); \
+            exit(1); \
         } \
     } while (0)
 
@@ -38,6 +38,7 @@
             printf("Assertion failed for expression: %s\n", #actual); \
             printf("Expected value: %s\n", (expected)); \
             printf("Actual   value: %s\n", (actual)); \
+            exit(1); \
         } \
     } while (0)
 

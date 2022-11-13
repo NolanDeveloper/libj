@@ -39,7 +39,7 @@ static LibjError libj_skip_literal(Libj *libj, LibisInputStream *input, const ch
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
     }
-    err = libj_skip_whitespace(libj, input, &eof, &c);
+    err = E(libj_skip_whitespace(libj, input, &eof, &c));
     if (err) goto end;
     for (size_t i = 0; i < strlen(literal); ++i) {
         if (c != literal[i]) {
@@ -69,7 +69,7 @@ LibjError libj_parse_value_object(Libj *libj, LibjJson **json, LibisInputStream 
     if (err) goto end;
     err = E(libj_skip_literal(libj, input, "{"));
     if (err) goto end;
-    err = libj_skip_whitespace(libj, input, &eof, &c);
+    err = E(libj_skip_whitespace(libj, input, &eof, &c));
     if (err) goto end;
     if ('}' == c) {
         err = E(libj_skip_literal(libj, input, "}"));
@@ -98,7 +98,7 @@ LibjError libj_parse_value_object(Libj *libj, LibjJson **json, LibisInputStream 
         if (err) goto end;
         err = E(libj_free_json(libj, &value));
         if (err) goto end;
-        err = libj_skip_whitespace(libj, input, &eof, &c);
+        err = E(libj_skip_whitespace(libj, input, &eof, &c));
         if (err) goto end;
         if ('}' != c && ',' != c) {
             E(errorf(libj, "} or , was expected", 0));
@@ -137,7 +137,7 @@ LibjError libj_parse_value_array(Libj *libj, LibjJson **json, LibisInputStream *
     if (err) goto end;
     err = E(libj_skip_literal(libj, input, "["));
     if (err) goto end;
-    err = libj_skip_whitespace(libj, input, &eof, &c);
+    err = E(libj_skip_whitespace(libj, input, &eof, &c));
     if (err) goto end;
     if (']' == c) {
         err = E(libj_skip_literal(libj, input, "]"));
@@ -159,7 +159,7 @@ LibjError libj_parse_value_array(Libj *libj, LibjJson **json, LibisInputStream *
         if (err) goto end;
         err = E(libj_free_json(libj, &element));
         if (err) goto end;
-        err = libj_skip_whitespace(libj, input, &eof, &c);
+        err = E(libj_skip_whitespace(libj, input, &eof, &c));
         if (err) goto end;
         if (']' != c && ',' != c) {
             E(errorf(libj, "] or , was expected", 0));
@@ -664,7 +664,7 @@ LibjError libj_parse_value(Libj *libj, LibjJson **json, LibisInputStream *input)
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
     }
-    err = libj_skip_whitespace(libj, input, &eof, &c);
+    err = E(libj_skip_whitespace(libj, input, &eof, &c));
     if (err) goto end;
     switch (c) {
     case '{':

@@ -37,13 +37,6 @@ static void run_test(const char *path, bool should_parse, const char *json_strin
         success = false;
         goto end;
     }
-    while (isspace(c)) {
-        err_is = libis_skip_char(libis, input, &eof, &c);
-        if (err_is) {
-            success = false;
-            goto end;
-        }
-    }
     bool is_parsed = err_j == LIBJ_ERROR_OK;
     bool is_parsed_completely = is_parsed && eof;
     bool has_error_message = error_string && strcmp(error_string, "");

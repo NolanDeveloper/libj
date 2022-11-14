@@ -770,6 +770,8 @@ end:
 
 LibjError libj_from_input_stream(Libj *libj, LibjJson **json, LibisInputStream *input, const char **error_string) {
     LibjError err = LIBJ_ERROR_OK;
+    bool eof;
+    char c;
     if (!libj || !json || !input || !error_string) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
@@ -787,8 +789,11 @@ LibjError libj_from_input_stream(Libj *libj, LibjJson **json, LibisInputStream *
         *error_string = libj->error_string;
         goto end;
     }
+    err = E(libj_skip_whitespace(libj, input, &eof, &c));
+    if (err) goto end;
     *error_string = "";
     assert(!libj->depth);
 end:
     return err;
 }
+

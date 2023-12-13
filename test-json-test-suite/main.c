@@ -101,29 +101,24 @@ int main(int argc, char *argv[]) {
     LibsbBuilder *builder = NULL;
     if (argc != 2) {
         printf("Usage: %s ./JSONTestSuite\n", argv[0]);
-        err = EXIT_FAILURE;
         goto end;
     }
     if (LIBSB_ERROR_OK != libsb_start(&libsb)) {
         printf("libsb_start failed\n");
-        err = EXIT_FAILURE;
         goto end;
     }
     if (LIBIS_ERROR_OK != libis_start(&libis)) {
         printf("libis_start failed\n");
-        err = EXIT_FAILURE;
         goto end;
     }
     if (LIBJ_ERROR_OK != libj_start(&libj)) {
         printf("libj_start failed\n");
-        err = EXIT_FAILURE;
         goto end;
     }
     const char *json_test_suite_path = argv[1];
     json_test_suite_dir = opendir(json_test_suite_path);
     if (!json_test_suite_dir) {
         printf("Failed to open directory: %s\n", json_test_suite_path);
-        err = EXIT_FAILURE;
         goto end;
     }
     struct dirent *entry;
@@ -137,22 +132,18 @@ int main(int argc, char *argv[]) {
         }
         LibsbError e = libsb_create(libsb, &builder);
         if (LIBSB_ERROR_OK != e) {
-            err = EXIT_FAILURE;
             goto end;
         }
         e = libsb_append(libsb, builder, "%s/%s", json_test_suite_path, entry->d_name);
         if (LIBSB_ERROR_OK != e) {
-            err = EXIT_FAILURE;
             goto end;
         }
         e = libsb_destroy_into(libsb, &builder, &path, &path_size);
         if (LIBSB_ERROR_OK != e) {
-            err = EXIT_FAILURE;
             goto end;
         }
         size_t content_size;
         if (!read_file(path, &content, &content_size)) {
-            err = EXIT_FAILURE;
             goto end;
         }
         run_test(path, entry->d_name[0] != 'n', content, content_size);
@@ -162,9 +153,10 @@ int main(int argc, char *argv[]) {
         content = NULL;
     }
     if (number_of_tests_passed != number_of_tests) {
-        err = EXIT_FAILURE;
         goto end;
     }
+    printf("Success!\n");
+    err = EXIT_SUCCESS;
 end:
     if (json_test_suite_dir) {
         closedir(json_test_suite_dir);

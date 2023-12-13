@@ -85,6 +85,9 @@ LibjType libj_string_to_type(const char *string);
 /* Convert LibjError to const char *. Example: LIBJ_ERROR_OK -> "LIBJ_ERROR_OK". */
 const char *libj_error_to_string(LibjError error);
 
+/* Convert LibjError to const char * that's more human readable. Example: LIBJ_ERROR_OK -> "Success". */
+const char *libj_error_to_human_readable_string(LibjError error);
+
 /* Inverse function to libj_error_to_string().
  * libj_string_to_error(libj_error_to_string(err)) == err */
 LibjError libj_string_to_error(const char *string);

@@ -105,7 +105,7 @@ LibjError libj_start(Libj **libj) {
     libis = NULL;
     *libj = libj_result;
     libj_result = NULL;
-    end:
+end:
     EIS(libis_finish(&libis));
     EGB(libgb_finish(&libgb));
     ESB(libsb_finish(&libsb));
@@ -128,7 +128,7 @@ LibjError libj_finish(Libj **libj) {
     free((*libj)->error_string);
     free(*libj);
     *libj = NULL;
-    end:
+end:
     return err;
 }
 
@@ -212,7 +212,7 @@ LibjError libj_type_of(Libj *libj, LibjJson *json, LibjType *type) {
         goto end;
     }
     *type = json->type;
-    end:
+end:
     return err;
 }
 
@@ -257,7 +257,7 @@ LibjError libj_free_json(Libj *libj, LibjJson **json) {
     }
     free(*json);
     *json = NULL;
-    end:
+end:
     return err;
 }
 
@@ -275,7 +275,7 @@ static LibjError copy_string(Libj *libj, LibjString src, LibjString *dest) {
     }
     memcpy(dest->value, src.value, src.size);
     dest->value[dest->size] = '\0';
-    end:
+end:
     return err;
 }
 
@@ -301,7 +301,7 @@ static LibjError copy_array(Libj *libj, LibjArray *source, LibjArray *target) {
     result.size = 0;
     result.elements = NULL;
     number_of_copied = 0;
-    end:
+end:
     for (; number_of_copied--;) {
         free(result.elements[number_of_copied]);
         E(libj_free_json(libj, &result.elements[number_of_copied]));
@@ -334,7 +334,7 @@ static LibjError copy_object(Libj *libj, LibjObject *source, LibjObject *target)
     result.size = 0;
     result.members = NULL;
     number_of_copied = 0;
-    end:
+end:
     for (; number_of_copied--;) {
         free(result.members[number_of_copied].name.value);
         E(libj_free_json(libj, &result.members[number_of_copied].value));
@@ -380,7 +380,7 @@ LibjError libj_copy(Libj *libj, LibjJson *source, LibjJson **target) {
     }
     *target = result;
     result = NULL;
-    end:
+end:
     E(libj_free_json(libj, &result));
     return err;
 }
@@ -402,7 +402,7 @@ LibjError libj_object_create(Libj *libj, LibjJson **json) {
     result->object.members = NULL;
     *json = result;
     result = NULL;
-    end:
+end:
     free(result);
     return err;
 }
@@ -422,7 +422,7 @@ LibjError libj_object_add_string(Libj *libj, LibjJson *json, const char *name, c
     if (err) goto end;
     err = E(libj_object_add(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -442,7 +442,7 @@ LibjError libj_object_add_integer(Libj *libj, LibjJson *json, const char *name, 
     if (err) goto end;
     err = E(libj_object_add(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -462,7 +462,7 @@ LibjError libj_object_add_real(Libj *libj, LibjJson *json, const char *name, dou
     if (err) goto end;
     err = E(libj_object_add(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -482,7 +482,7 @@ LibjError libj_object_add_number(Libj *libj, LibjJson *json, const char *name, c
     if (err) goto end;
     err = E(libj_object_add(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -502,7 +502,7 @@ LibjError libj_object_add_bool(Libj *libj, LibjJson *json, const char *name, boo
     if (err) goto end;
     err = E(libj_object_add(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -522,7 +522,7 @@ LibjError libj_object_add_null(Libj *libj, LibjJson *json, const char *name) {
     if (err) goto end;
     err = E(libj_object_add(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -535,7 +535,7 @@ LibjError libj_object_add(Libj *libj, LibjJson *json, const char *name, LibjJson
     }
     err = E(libj_object_add_ex(libj, json, name, strlen(name), value));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -567,7 +567,7 @@ LibjError libj_object_add_ex(Libj *libj, LibjJson *json, const char *name, size_
     json->object.members = new_members;
     name_copy = NULL;
     json_value = NULL;
-    end:
+end:
     free(name_copy);
     E(libj_free_json(libj, &json_value));
     return err;
@@ -601,7 +601,7 @@ LibjError libj_object_count_versions_ex(
         }
     }
     *nversions = count;
-    end:
+end:
     return err;
 }
 
@@ -618,7 +618,7 @@ LibjError libj_object_get_version(Libj *libj, LibjJson *json, LibjJson **value, 
     }
     err = E(libj_object_get_version_ex(libj, json, value, name, strlen(name), version));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -647,7 +647,7 @@ static LibjError object_get_version_index_ex(
             ++count_versions_before_i;
         }
     }
-    end:
+end:
     return err;
 }
 
@@ -667,7 +667,7 @@ LibjError libj_object_get_version_ex(Libj *libj, LibjJson *json, LibjJson **valu
     err = E(object_get_version_index_ex(json, name, name_size, version, &index));
     if (err) goto end;
     *value = json->object.members[index].value;
-    end:
+end:
     return err;
 }
 
@@ -695,7 +695,7 @@ LibjError libj_object_get_string_v(Libj *libj, LibjJson *json, char **value, con
     if (err) goto end;
     err = E(libj_get_string(libj, json_value, value));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -742,7 +742,7 @@ LibjError libj_object_get_integer_v(Libj *libj, LibjJson *json, intmax_t *value,
     if (err) goto end;
     err = E(libj_get_integer(libj, json_value, value));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -790,7 +790,7 @@ LibjError libj_object_get_real_v(Libj *libj, LibjJson *json, double *value, cons
     if (err) goto end;
     err = E(libj_get_real(libj, json_value, value));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -839,7 +839,7 @@ LibjError libj_object_get_number_v(Libj *libj, LibjJson *json, char **value, con
     if (err) goto end;
     err = E(libj_get_number(libj, json_value, value));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -887,7 +887,7 @@ LibjError libj_object_get_bool_v(Libj *libj, LibjJson *json, bool *value, const 
     if (err) goto end;
     err = E(libj_get_bool(libj, json_value, value));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -930,7 +930,7 @@ LibjError libj_object_get_ex(Libj *libj, LibjJson *json, LibjJson **value, const
     }
     err = E(libj_object_get_version_ex(libj, json, value, name, name_size, number_of_versions - 1));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -959,7 +959,7 @@ LibjError libj_object_get_v(Libj *libj, LibjJson *json, LibjJson **value, const 
         name = va_arg(args, char *);
     }
     *value = json;
-    end:
+end:
     return err;
 }
 
@@ -975,7 +975,7 @@ LibjError libj_object_get_size(Libj *libj, LibjJson *json, size_t *size) {
         goto end;
     }
     *size = json->object.size;
-    end:
+end:
     return err;
 }
 
@@ -994,7 +994,7 @@ LibjError libj_object_set_null(Libj *libj, LibjJson *json, const char *name) {
     if (err) goto end;
     err = E(libj_object_set(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1014,7 +1014,7 @@ LibjError libj_object_set_bool(Libj *libj, LibjJson *json, const char *name, boo
     if (err) goto end;
     err = E(libj_object_set(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1034,7 +1034,7 @@ LibjError libj_object_set_integer(Libj *libj, LibjJson *json, const char *name, 
     if (err) goto end;
     err = E(libj_object_set(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1054,7 +1054,7 @@ LibjError libj_object_set_real(Libj *libj, LibjJson *json, const char *name, dou
     if (err) goto end;
     err = E(libj_object_set(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1074,7 +1074,7 @@ LibjError libj_object_set_string(Libj *libj, LibjJson *json, const char *name, c
     if (err) goto end;
     err = E(libj_object_set(libj, json, name, json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1097,7 +1097,7 @@ LibjError libj_object_set_ex(Libj *libj, LibjJson *json, const char *name, size_
     if (err) goto end;
     err = E(libj_object_add_ex(libj, json, name, name_size, value));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -1128,7 +1128,7 @@ libj_object_member_at_ex(Libj *libj, LibjJson *json, size_t i, const char **name
     *name = member.name.value;
     *name_size = member.name.size;
     *value = member.value;
-    end:
+end:
     return err;
 }
 
@@ -1161,7 +1161,7 @@ LibjError libj_object_remove_v(Libj *libj, LibjJson *json, const char *name, va_
     if (err) goto end;
     err = E(libj_object_remove_ex(libj, json, name, strlen(name), number_of_versions - 1));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -1180,7 +1180,7 @@ LibjError libj_object_remove_ex(Libj *libj, LibjJson *json, const char *name, si
     if (err) goto end;
     err = E(libj_object_remove_at(libj, json, index));
     if (err) goto end;
-    end:
+end:
     return err;
 }
 
@@ -1218,7 +1218,7 @@ LibjError libj_object_remove_at(Libj *libj, LibjJson *json, size_t index) {
     json->object.members = new_members;
     E(libj_free_json(libj, &member_to_remove.value));
     free(member_to_remove.name.value);
-    end:
+end:
     return err;
 }
 
@@ -1240,7 +1240,7 @@ LibjError libj_object_remove_all_ex(Libj *libj, LibjJson *json, const char *name
             if (err) goto end;
         }
     }
-    end:
+end:
     return err;
 }
 
@@ -1258,7 +1258,7 @@ LibjError libj_array_create(Libj *libj, LibjJson **json) {
     (*json)->type = LIBJ_TYPE_ARRAY;
     (*json)->array.size = 0;
     (*json)->array.elements = NULL;
-    end:
+end:
     return err;
 }
 
@@ -1281,7 +1281,7 @@ static LibjError array_add(LibjJson *json, LibjJson **element) {
     json->array.elements = new_elements;
     ++json->array.size;
     *element = NULL;
-    end:
+end:
     return err;
 }
 
@@ -1296,7 +1296,7 @@ LibjError libj_array_add_string(Libj *libj, LibjJson *json, const char *value) {
     if (err) goto end;
     err = E(array_add(json, &json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1312,7 +1312,7 @@ LibjError libj_array_add_integer(Libj *libj, LibjJson *json, intmax_t value) {
     if (err) goto end;
     err = E(array_add(json, &json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1328,7 +1328,7 @@ LibjError libj_array_add_real(Libj *libj, LibjJson *json, double value) {
     if (err) goto end;
     err = E(array_add(json, &json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1344,7 +1344,7 @@ LibjError libj_array_add_number(Libj *libj, LibjJson *json, const char *value) {
     if (err) goto end;
     err = E(array_add(json, &json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1360,7 +1360,7 @@ LibjError libj_array_add_bool(Libj *libj, LibjJson *json, bool value) {
     if (err) goto end;
     err = E(array_add(json, &json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1380,7 +1380,7 @@ LibjError libj_array_add_null(Libj *libj, LibjJson *json) {
     if (err) goto end;
     err = E(array_add(json, &json_value));
     if (err) goto end;
-    end:
+end:
     E(libj_free_json(libj, &json_value));
     return err;
 }
@@ -1407,7 +1407,7 @@ LibjError libj_array_add(Libj *libj, LibjJson *json, LibjJson *element) {
     json->array.elements[json->array.size] = element_copy;
     ++json->array.size;
     element_copy = NULL;
-    end:
+end:
     E(libj_free_json(libj, &element_copy));
     return err;
 }
@@ -1424,7 +1424,7 @@ LibjError libj_array_get_size(Libj *libj, LibjJson *json, size_t *size) {
         goto end;
     }
     *size = json->array.size;
-    end:
+end:
     return err;
 }
 
@@ -1444,7 +1444,7 @@ LibjError libj_array_element_at(Libj *libj, LibjJson *json, size_t i, LibjJson *
         goto end;
     }
     *element = json->array.elements[i];
-    end:
+end:
     return err;
 }
 
@@ -1481,7 +1481,7 @@ LibjError libj_array_remove_at(Libj *libj, LibjJson *json, size_t index) {
     }
     json->array.elements = new_elements;
     E(libj_free_json(libj, &json_to_remove));
-    end:
+end:
     return err;
 }
 
@@ -1503,7 +1503,7 @@ LibjError libj_get_integer(Libj *libj, LibjJson *json, intmax_t *value) {
         err = LIBJ_ERROR_SYNTAX;
         goto end;
     }
-    end:
+end:
     return err;
 }
 
@@ -1524,7 +1524,7 @@ LibjError libj_get_real(Libj *libj, LibjJson *json, double *value) {
         err = LIBJ_ERROR_SYNTAX;
         goto end;
     }
-    end:
+end:
     return err;
 }
 
@@ -1540,7 +1540,7 @@ LibjError libj_get_number(Libj *libj, LibjJson *json, char **value) {
         goto end;
     }
     *value = json->string.value;
-    end:
+end:
     return err;
 }
 
@@ -1556,7 +1556,7 @@ LibjError libj_get_bool(Libj *libj, LibjJson *json, bool *value) {
         goto end;
     }
     *value = json->boolean;
-    end:
+end:
     return err;
 }
 
@@ -1573,7 +1573,7 @@ LibjError libj_get_string(Libj *libj, LibjJson *json, char **value) {
         err = LIBJ_ERROR_ZERO;
         goto end;
     }
-    end:
+end:
     return err;
 }
 
@@ -1591,7 +1591,7 @@ LibjError libj_get_string_ex(Libj *libj, LibjJson *json, char **value, size_t *v
     }
     *value = json->string.value;
     *value_size = json->string.size;
-    end:
+end:
     return err;
 }
 
@@ -1620,7 +1620,7 @@ LibjError libj_string_create_ex(Libj *libj, LibjJson **json, const char *value, 
     *json = result;
     result = NULL;
     value_copy = NULL;
-    end:
+end:
     free(result);
     free(value_copy);
     return err;
@@ -1648,7 +1648,7 @@ LibjError libj_integer_create(Libj *libj, LibjJson **json, intmax_t value) {
     result->type = LIBJ_TYPE_NUMBER;
     *json = result;
     result = NULL;
-    end:
+end:
     ESB(libsb_destroy(libj->libsb, &builder));
     free(result);
     return err;
@@ -1676,7 +1676,7 @@ LibjError libj_real_create(Libj *libj, LibjJson **json, double value) {
     result->type = LIBJ_TYPE_NUMBER;
     *json = result;
     result = NULL;
-    end:
+end:
     ESB(libsb_destroy(libj->libsb, &builder));
     free(result);
     return err;
@@ -1698,7 +1698,7 @@ LibjError libj_number_create(Libj *libj, LibjJson **json, const char *value) {
     }
     *json = result;
     result = NULL;
-    end:
+end:
     E(libj_free_json(libj, &result));
     return err;
 }
@@ -1716,7 +1716,7 @@ LibjError libj_bool_create(Libj *libj, LibjJson **json, bool value) {
     }
     (*json)->type = LIBJ_TYPE_BOOL;
     (*json)->boolean = value;
-    end:
+end:
     return err;
 }
 
@@ -1732,6 +1732,6 @@ LibjError libj_null_create(Libj *libj, LibjJson **json) {
         goto end;
     }
     (*json)->type = LIBJ_TYPE_NULL;
-    end:
+end:
     return err;
 }

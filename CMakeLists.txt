@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(libj)
+project(libj VERSION 0.1)
 
 include(CTest)
 include(FetchContent)

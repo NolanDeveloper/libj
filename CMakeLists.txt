@@ -15,7 +15,7 @@ FetchContent_Declare(
 FetchContent_Declare(
         libis
         GIT_REPOSITORY https://github.com/nolanrus/libis.git
-        GIT_TAG        66499a00aeb81ec7d736c7fc6c6b1c611c895a4a
+        GIT_TAG        b2705de696e4a32044fafc1e3740e16e436db5de
 )
 FetchContent_Declare(
         libsb

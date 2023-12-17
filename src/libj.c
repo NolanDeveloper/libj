@@ -1101,13 +1101,13 @@ end:
     return err;
 }
 
-LibjError libj_object_member_at(Libj *libj, LibjJson *json, size_t i, const char **name, LibjJson **value) {
+LibjError libj_object_get_member_at(Libj *libj, LibjJson *json, size_t i, const char **name, LibjJson **value) {
     size_t name_size;
-    return libj_object_member_at_ex(libj, json, i, name, &name_size, value);
+    return libj_object_get_member_at_ex(libj, json, i, name, &name_size, value);
 }
 
 LibjError
-libj_object_member_at_ex(Libj *libj, LibjJson *json, size_t i, const char **name, size_t *name_size, LibjJson **value) {
+libj_object_get_member_at_ex(Libj *libj, LibjJson *json, size_t i, const char **name, size_t *name_size, LibjJson **value) {
     LibjError err = LIBJ_ERROR_OK;
     if (!libj || !json || !name || !name_size || !value) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
@@ -1428,7 +1428,7 @@ end:
     return err;
 }
 
-LibjError libj_array_element_at(Libj *libj, LibjJson *json, size_t i, LibjJson **element) {
+LibjError libj_array_get_element_at(Libj *libj, LibjJson *json, size_t i, LibjJson **element) {
     LibjError err = LIBJ_ERROR_OK;
     if (!libj || !json || !element) {
         err = LIBJ_ERROR_BAD_ARGUMENT;

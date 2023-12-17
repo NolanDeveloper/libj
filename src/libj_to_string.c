@@ -182,6 +182,11 @@ static LibjError append_number(Libj *libj, const char *number) {
     }
     err = ESB(libsb_create(libj->libsb, &builder));
     if (err) goto end;
+    /* TODO: This is not thread safe. Instead use uselocale(). Example:
+     * locale_t c_locale = newlocae(LC_ALL_MASK, "C", (locale_t) 0);
+     * uselocale(c_locale);
+     * libsb_append(libj->libsb, builder, "%s", number);
+     * uselocale(LC_GLOBAL_LOCALE); */
     err = ESB(libsb_append(libj->libsb, builder, "%s", number));
     if (err) goto end;
     struct lconv * lconv = localeconv();

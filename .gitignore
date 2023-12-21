@@ -1,3 +1,2 @@
-/subprojects/*/
-build.sh
-test.sh
+/build
+

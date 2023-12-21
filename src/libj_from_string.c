@@ -258,7 +258,7 @@ static LibjError consume_utf8_character(Libj *libj, LibisInputStream *input, Lib
         goto end;
     }
     temp[length] = '\0';
-    uint_least32_t c32;
+    uint32_t c32;
     if (!libutf_c8_to_c32(temp, &c32)) {
         err = LIBJ_ERROR_SYNTAX;
         E(errorf(libj, "input is not UTF-8", 0));
@@ -297,7 +297,7 @@ end:
     return err;
 }
 
-static LibjError consume_hex4(Libj *libj, LibisInputStream *input, uint_least32_t *u32) {
+static LibjError consume_hex4(Libj *libj, LibisInputStream *input, uint32_t *u32) {
     LibjError err = LIBJ_ERROR_OK;
     if (!libj || !input || !u32) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
@@ -364,10 +364,10 @@ LibjError libj_consume_escape_sequence(Libj *libj, LibisInputStream *input, Libg
     case 'u': {
         err = EIS(libis_skip_char(libj->libis, input, &eof, &c));
         if (err) goto end;
-        uint_least32_t p = 0;
+        uint32_t p = 0;
         err = E(consume_hex4(libj, input, &p));
         if (err) goto end;
-        LibutfC16Type type = libutf_c16_type((uint_least16_t) p);
+        LibutfC16Type type = libutf_c16_type((uint16_t) p);
         if (type == LIBUTF_UTF16_SURROGATE_LOW) {
             err = LIBJ_ERROR_SYNTAX;
             E(errorf(libj, "UTF-16 low surrogate comes first", 0));
@@ -376,16 +376,16 @@ LibjError libj_consume_escape_sequence(Libj *libj, LibisInputStream *input, Libg
         if (type == LIBUTF_UTF16_SURROGATE_HIGH) {
             err = E(libj_skip_literal(libj, input, "\\u"));
             if (err) goto end;
-            uint_least32_t next = 0;
+            uint32_t next = 0;
             err = E(consume_hex4(libj, input, &next));
             if (err) goto end;
-            LibutfC16Type next_type = libutf_c16_type((uint_least16_t) next);
+            LibutfC16Type next_type = libutf_c16_type((uint16_t) next);
             if (next_type != LIBUTF_UTF16_SURROGATE_LOW) {
                 err = LIBJ_ERROR_SYNTAX;
                 E(errorf(libj, "UTF-16 high surrogate is not followed by a low surrogate", 0));
                 goto end;
             }
-            uint_least16_t c16[2] = { p, next };
+            uint16_t c16[2] = { p, next };
             if (!libutf_c16_to_c32(c16, &p)) {
                 err = LIBJ_ERROR_SYNTAX;
                 E(errorf(libj, "invalid UTF-16 surrogate pair", 0));

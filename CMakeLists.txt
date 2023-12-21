@@ -25,7 +25,7 @@ FetchContent_Declare(
 FetchContent_Declare(
         libutf
         GIT_REPOSITORY https://github.com/nolanrus/libutf.git
-        GIT_TAG        91fc9ed1debafd0dbd20d24b227d7c793d16da41
+        GIT_TAG        07245f57a12b1a14da3b394af37ee2407e8c1668
 )
 FetchContent_MakeAvailable(libgb libis libsb libutf)
 

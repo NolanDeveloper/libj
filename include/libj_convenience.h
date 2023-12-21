@@ -13,7 +13,7 @@ extern LibjToStringOptions libj_to_string_options_compact;
 /* Add new field of type string to an object. If name of the field may contain '\0' prefer to use _ex functions. */
 LibjError libj_object_add_string(Libj *libj, LibjJson *json, const char *name, const char *value);
 
-LibjError libj_object_add_integer(Libj *libj, LibjJson *json, const char *name, intmax_t value);
+LibjError libj_object_add_integer(Libj *libj, LibjJson *json, const char *name, int64_t value);
 
 LibjError libj_object_add_real(Libj *libj, LibjJson *json, const char *name, double value);
 
@@ -49,17 +49,17 @@ LibjError libj_object_get_string_or_default_v(
 
 #define libj_object_get_integer(...) libj_object_get_integer_(__VA_ARGS__, NULL)
 
-LibjError libj_object_get_integer_(Libj *libj, LibjJson *json, intmax_t *value, const char *name, ...);
+LibjError libj_object_get_integer_(Libj *libj, LibjJson *json, int64_t *value, const char *name, ...);
 
-LibjError libj_object_get_integer_v(Libj *libj, LibjJson *json, intmax_t *value, const char *name, va_list args);
+LibjError libj_object_get_integer_v(Libj *libj, LibjJson *json, int64_t *value, const char *name, va_list args);
 
 #define libj_object_get_integer_or_default(...) libj_object_get_integer_or_default_(__VA_ARGS__, NULL)
 
 LibjError libj_object_get_integer_or_default_(
-        Libj *libj, LibjJson *json, intmax_t *value, intmax_t default_value, const char *name, ...);
+        Libj *libj, LibjJson *json, int64_t *value, int64_t default_value, const char *name, ...);
 
 LibjError libj_object_get_integer_or_default_v(
-        Libj *libj, LibjJson *json, intmax_t *value, intmax_t default_value, const char *name, va_list args);
+        Libj *libj, LibjJson *json, int64_t *value, int64_t default_value, const char *name, va_list args);
 
 #define libj_object_get_real(...) libj_object_get_real_(__VA_ARGS__, NULL)
 
@@ -115,7 +115,7 @@ LibjError libj_object_set_null(Libj *libj, LibjJson *json, const char *name);
 
 LibjError libj_object_set_bool(Libj *libj, LibjJson *json, const char *name, bool value);
 
-LibjError libj_object_set_integer(Libj *libj, LibjJson *json, const char *name, intmax_t value);
+LibjError libj_object_set_integer(Libj *libj, LibjJson *json, const char *name, int64_t value);
 
 LibjError libj_object_set_real(Libj *libj, LibjJson *json, const char *name, double value);
 
@@ -143,7 +143,7 @@ LibjError libj_object_remove_all_ex(Libj *libj, LibjJson *json, const char *name
 
 LibjError libj_array_add_string(Libj *libj, LibjJson *json, const char *value);
 
-LibjError libj_array_add_integer(Libj *libj, LibjJson *json, intmax_t value);
+LibjError libj_array_add_integer(Libj *libj, LibjJson *json, int64_t value);
 
 LibjError libj_array_add_real(Libj *libj, LibjJson *json, double value);
 

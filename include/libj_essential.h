@@ -139,7 +139,7 @@ LibjError libj_array_remove_at(Libj *libj, LibjJson *json, size_t index);
  * Primitive extractor functions
  **********************************************************************************/
 
-LibjError libj_get_integer(Libj *libj, LibjJson *json, intmax_t *value);
+LibjError libj_get_integer(Libj *libj, LibjJson *json, int64_t *value);
 
 LibjError libj_get_real(Libj *libj, LibjJson *json, double *value);
 
@@ -155,7 +155,7 @@ LibjError libj_get_string_ex(Libj *libj, LibjJson *json, char **value, size_t *v
 
 LibjError libj_string_create_ex(Libj *libj, LibjJson **json, const char *value, size_t value_size);
 
-LibjError libj_integer_create(Libj *libj, LibjJson **json, intmax_t value);
+LibjError libj_integer_create(Libj *libj, LibjJson **json, int64_t value);
 
 LibjError libj_real_create(Libj *libj, LibjJson **json, double value);
 

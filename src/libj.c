@@ -427,7 +427,7 @@ end:
     return err;
 }
 
-LibjError libj_object_add_integer(Libj *libj, LibjJson *json, const char *name, intmax_t value) {
+LibjError libj_object_add_integer(Libj *libj, LibjJson *json, const char *name, int64_t value) {
     LibjError err = LIBJ_ERROR_OK;
     LibjJson *json_value = NULL;
     if (!libj || !json || !name) {
@@ -719,7 +719,7 @@ LibjError libj_object_get_string_or_default_v(Libj *libj, LibjJson *json, char *
     return err;
 }
 
-LibjError libj_object_get_integer_(Libj *libj, LibjJson *json, intmax_t *value, const char *name, ...) {
+LibjError libj_object_get_integer_(Libj *libj, LibjJson *json, int64_t *value, const char *name, ...) {
     va_list args;
     va_start(args, name);
     LibjError err = libj_object_get_integer_v(libj, json, value, name, args);
@@ -727,7 +727,7 @@ LibjError libj_object_get_integer_(Libj *libj, LibjJson *json, intmax_t *value, 
     return err;
 }
 
-LibjError libj_object_get_integer_v(Libj *libj, LibjJson *json, intmax_t *value, const char *name, va_list args) {
+LibjError libj_object_get_integer_v(Libj *libj, LibjJson *json, int64_t *value, const char *name, va_list args) {
     LibjError err = LIBJ_ERROR_OK;
     if (!libj || !json || !value || !name) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
@@ -747,7 +747,7 @@ end:
 }
 
 LibjError
-libj_object_get_integer_or_default_(Libj *libj, LibjJson *json, intmax_t *value, intmax_t default_value,
+libj_object_get_integer_or_default_(Libj *libj, LibjJson *json, int64_t *value, int64_t default_value,
                                     const char *name, ...) {
     va_list args;
     va_start(args, name);
@@ -757,7 +757,7 @@ libj_object_get_integer_or_default_(Libj *libj, LibjJson *json, intmax_t *value,
 }
 
 LibjError
-libj_object_get_integer_or_default_v(Libj *libj, LibjJson *json, intmax_t *value, intmax_t default_value,
+libj_object_get_integer_or_default_v(Libj *libj, LibjJson *json, int64_t *value, int64_t default_value,
                                      const char *name, va_list args) {
     LibjError err = libj_object_get_integer_v(libj, json, value, name, args);
     if (LIBJ_ERROR_NOT_FOUND == err) {
@@ -1019,7 +1019,7 @@ end:
     return err;
 }
 
-LibjError libj_object_set_integer(Libj *libj, LibjJson *json, const char *name, intmax_t value) {
+LibjError libj_object_set_integer(Libj *libj, LibjJson *json, const char *name, int64_t value) {
     LibjError err = LIBJ_ERROR_OK;
     LibjJson *json_value = NULL;
     if (!libj || !json || !name) {
@@ -1301,7 +1301,7 @@ end:
     return err;
 }
 
-LibjError libj_array_add_integer(Libj *libj, LibjJson *json, intmax_t value) {
+LibjError libj_array_add_integer(Libj *libj, LibjJson *json, int64_t value) {
     LibjError err = LIBJ_ERROR_OK;
     LibjJson *json_value = NULL;
     if (!libj || !json) {
@@ -1485,7 +1485,7 @@ end:
     return err;
 }
 
-LibjError libj_get_integer(Libj *libj, LibjJson *json, intmax_t *value) {
+LibjError libj_get_integer(Libj *libj, LibjJson *json, int64_t *value) {
     LibjError err = LIBJ_ERROR_OK;
     if (!libj || !json || !value) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
@@ -1626,7 +1626,7 @@ end:
     return err;
 }
 
-LibjError libj_integer_create(Libj *libj, LibjJson **json, intmax_t value) {
+LibjError libj_integer_create(Libj *libj, LibjJson **json, int64_t value) {
     LibjError err = LIBJ_ERROR_OK;
     LibjJson *result = NULL;
     LibsbBuilder *builder = NULL;

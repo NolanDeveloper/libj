@@ -1,26 +1,14 @@
 # libj 
 
-This is libj -- JSON library. It provides "from string" and "to string"
-coversions as well as functions that allow to access and modify JSON.
+This is libj -- JSON library for written in C11. It provides "from string" and
+"to string" coversions as well as functions that allow to access and modify
+JSON.
 
 ## Goals
 
 ### RFC8259 compliant
 
 Code correctness is of top importance.
-
-### Make "wrong" usage inconvenient
-
-Convenience is a tool that API employs to guide its users to what it considers
-"right". 
-
-~~This doesn't mean however that "right" usage would be convenient.~~
-
-What's considered "right" by this library:
-* Errors must be handled
-* Users should use C-strings
-* ... 
-* *The list is being updated*
 
 ### UTF-8 all the way
 
@@ -38,32 +26,47 @@ Although '\0' cannot be part of JSON text, according to Section 7 RFC8259 it
 may be encoded as an escape '\u0000'. So in order to comply with RFC8259 the
 parser has to accept it.
 
-This becomes a challenge because C-strings use '\0' as terminator character.
+This becomes a challenge because C-strings use '\0' as the terminator.
 Despite being considered a bad design choice, C-strings are still inherent to
 the language and are widely used. So many of the users of the library would
 certainly want to work with C-string.
 
 Thus JSON library implemented in C has to make a compromise.
 
-Solution that this library eploys:
+Solution that this library employs:
 
 * Internally store size-limited (as opposed to null-terminated) strings and
-  don't treat '\0' as terminator character;
+  don't treat '\0' as the terminator.
 * Provide **convenient** API for users that work with C-strings and return
-  special error code whenever input or output string contains '\0';
-* Provide **some** API for users that work with size-limited strings to support
-  input and output of strings containing '\0';
+  a special error code whenever the input or output string contains '\0'.
+* Provide **extended** API for users that work with size-limited strings to support
+  input and output of strings containing '\0'.
 
 ### Support arbitrary precision JSON numbers
 
-### Support access to multiple duplicate keys
+RFC8259 doesn't set a limit on the length and precision of JSON numbers. But
+libc doesn't support arbitrary precision integers and real numbers. Linking
+specific arbitrary precision library may limit usage of this library.
 
-Non-goals:
+Solution that this library employs:
 
-> High performance is not one of the project's goals.
+* Provide **convenient** API to handle fixed size integers and real
+  numbers.
+* Provide **extended** API that treats numbers as strings for users that are
+  able to handle arbitrary precision numbers.
 
-Main features:
-* C11 standard
+### Preserve order and support duplicate keys in the object
 
+RFC8259 doesn't specify whether order of the keys has to be preserved and how
+to handle duplicate keys. Implementations that preserve order and support
+duplicate keys achive better interoperability. So this library both preserve
+order and supports duplicate keys.
 
+## Non-goals:
+
+### High performance
+
+This project values elegance of interface and elegance of implementation higher
+than performance. The user should benchmark to decide whether performance of
+this library fits their needs.
 

@@ -1,6 +1,6 @@
 # libj 
 
-This is libj -- JSON library for written in C11. It provides "from string" and
+This is libj - JSON library for written in C11. It provides "from string" and
 "to string" coversions as well as functions that allow to access and modify
 JSON.
 

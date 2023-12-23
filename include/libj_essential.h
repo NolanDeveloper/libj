@@ -113,6 +113,10 @@ LibjError libj_object_count_versions_ex(
 LibjError libj_object_get_version_ex(
         Libj *libj, LibjJson *json, LibjJson **value, const char *name, size_t name_size, size_t version);
 
+/* Insert new member before specified position. */
+LibjError libj_object_insert_at_ex(
+        Libj *libj, LibjJson *json, size_t position, const char *name, size_t name_size, LibjJson *value);
+
 LibjError libj_object_get_size(Libj *libj, LibjJson *json, size_t *size);
 
 LibjError libj_object_get_member_at_ex(

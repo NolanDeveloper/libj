@@ -671,6 +671,46 @@ end:
     return err;
 }
 
+LibjError libj_object_insert_at_ex(
+        Libj *libj, LibjJson *json, size_t position, const char *name, size_t name_size, LibjJson *value) {
+    LibjError err = LIBJ_ERROR_OK;
+    char *name_copy = NULL;
+    LibjJson *value_copy = NULL;
+    if (!libj || !json || !name || !value) {
+        err = LIBJ_ERROR_BAD_ARGUMENT;
+        goto end;
+    }
+    if (LIBJ_TYPE_OBJECT != json->type) {
+        err = LIBJ_ERROR_BAD_TYPE;
+        goto end;
+    }
+    if (json->object.size < position) {
+        err = LIBJ_ERROR_NOT_FOUND;
+        goto end;
+    }
+    err = E(libj_string_duplicate(libj, name, name_size, &name_copy));
+    if (err) goto end;
+    err = E(libj_copy(libj, value, &value_copy));
+    if (err) goto end;
+    LibjMember *new_members = realloc(json->object.members, (json->object.size + 1) * sizeof(LibjMember));
+    if (!new_members) {
+        err = LIBJ_ERROR_OUT_OF_MEMORY;
+        goto end;
+    }
+    memmove(&new_members[position + 1], &new_members[position], (json->object.size - position) * sizeof(LibjMember));
+    new_members[position].name.value = name_copy;
+    new_members[position].name.size = name_size;
+    new_members[position].value = value_copy;
+    ++json->object.size;
+    json->object.members = new_members;
+    name_copy = NULL;
+    value_copy = NULL;
+end:
+    free(name_copy);
+    E(libj_free_json(libj, &value_copy));
+    return err;
+}
+
 LibjError libj_object_get_string_(Libj *libj, LibjJson *json, char **value, const char *name, ...) {
     va_list args;
     va_start(args, name);

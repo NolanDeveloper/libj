@@ -84,11 +84,12 @@ LibjJson *create_json(void) {
     E(libj_object_add_real(libj, json, "pi", 3.14));
     E(libj_object_add_bool(libj, json, "bool", true));
     E(libj_object_add_null(libj, json, "null"));
-    E(libj_object_insert_at_ex(libj, json, 6, "null1", 5, json_null));
+    /* E(libj_object_insert_at_ex(libj, json, 6, "null1", 5, json_null)); */
     E(libj_object_add(libj, json, "empty_array", empty_array));
     E(libj_object_add(libj, json, "empty_object", empty_object));
     E(libj_object_add(libj, json, "array", array));
     E(libj_object_add(libj, json, "object", object));
+    E(libj_free_json(libj, &json_null));
     E(libj_free_json(libj, &empty_array));
     E(libj_free_json(libj, &empty_object));
     E(libj_free_json(libj, &array));

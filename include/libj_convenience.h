@@ -9,6 +9,9 @@ extern LibjToStringOptions libj_to_string_options_pretty;
 /* Options that may be passed io libj_to_string to get one line compact string representation of json. */
 extern LibjToStringOptions libj_to_string_options_compact;
 
+/**********************************************************************************
+ * Object's functions convenience
+ **********************************************************************************/
 
 /* Add new field of type string to an object. If name of the field may contain '\0' prefer to use _ex functions. */
 LibjError libj_object_add_string(Libj *libj, LibjJson *json, const char *name, const char *value);
@@ -25,11 +28,9 @@ LibjError libj_object_add_null(Libj *libj, LibjJson *json, const char *name);
 
 LibjError libj_object_add(Libj *libj, LibjJson *json, const char *name, LibjJson *value);
 
-LibjError libj_object_count_versions(Libj *libj, LibjJson *json, const char *name, size_t *nversions);
+LibjError libj_object_add_ex(Libj *libj, LibjJson *json, const char *name, size_t name_size, LibjJson *value);
 
-/**********************************************************************************
- * Object's functions convenience
- **********************************************************************************/
+LibjError libj_object_count_versions(Libj *libj, LibjJson *json, const char *name, size_t *nversions);
 
 LibjError libj_object_get_version(Libj *libj, LibjJson *json, LibjJson **value, const char *name, size_t version);
 

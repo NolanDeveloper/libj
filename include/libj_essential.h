@@ -102,9 +102,6 @@ LibjError libj_copy(Libj *libj, LibjJson *source, LibjJson **target);
 /* Create empty json object. */
 LibjError libj_object_create(Libj *libj, LibjJson **json);
 
-/* TODO: This should be convenience. Make libj_object_insert_at essential(). */
-LibjError libj_object_add_ex(Libj *libj, LibjJson *json, const char *name, size_t name_size, LibjJson *value);
-
 /* TODO: This should be convenience. Implement this through object_get_member_at_ex(). */
 LibjError libj_object_count_versions_ex(
         Libj *libj, LibjJson *json, const char *name, size_t name_size, size_t *nversions);

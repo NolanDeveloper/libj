@@ -1,5 +1,6 @@
 add_library(libj
-        libj.c
+        libj_essential.c
+        libj_convenience.c
         libj_from_string.c
         libj_internal.h
         libj_to_string.c

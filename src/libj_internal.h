@@ -76,4 +76,8 @@ LibjError libj_parse_value_null(Libj *libj, LibjJson **json, LibisInputStream *i
 
 LibjError libj_parse_value_string(Libj *libj, LibjJson **json, LibisInputStream *input);
 
+LibjError object_get_version_index_ex(
+        LibjJson *json, const char *name, size_t name_size, int version, size_t *index);
+
+
 #endif

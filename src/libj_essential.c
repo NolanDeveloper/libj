@@ -82,6 +82,7 @@ LibjError libj_start(Libj **libj) {
     Libsb *libsb = NULL;
     Libgb *libgb = NULL;
     Libis *libis = NULL;
+    locale_t c_locale = (locale_t) 0;
     if (!libj) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
@@ -96,6 +97,11 @@ LibjError libj_start(Libj **libj) {
     if (!libj_result) {
         goto end;
     }
+    c_locale = newlocale(LC_ALL_MASK, "C", (locale_t) 0);
+    if (c_locale == (locale_t) 0) {
+        err = LIBJ_ERROR_IO;
+        goto end;
+    }
     libj_result->error_string = NULL;
     libj_result->libsb = libsb;
     libsb = NULL;
@@ -103,9 +109,12 @@ LibjError libj_start(Libj **libj) {
     libgb = NULL;
     libj_result->libis = libis;
     libis = NULL;
+    libj_result->c_locale = c_locale;
+    c_locale = (locale_t) 0;
     *libj = libj_result;
     libj_result = NULL;
 end:
+    if (c_locale) freelocale(c_locale);
     EIS(libis_finish(&libis));
     EGB(libgb_finish(&libgb));
     ESB(libsb_finish(&libsb));
@@ -122,6 +131,7 @@ LibjError libj_finish(Libj **libj) {
     if (!*libj) {
         goto end;
     }
+    freelocale((*libj)->c_locale);
     EIS(libis_finish(&(*libj)->libis));
     ESB(libsb_finish(&(*libj)->libsb));
     EGB(libgb_finish(&(*libj)->libgb));

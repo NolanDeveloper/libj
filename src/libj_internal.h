@@ -5,11 +5,13 @@
 #include <libsb.h>
 #include <libgb.h>
 #include <libis.h>
+#include <locale.h>
 
 struct Libj_ {
     Libsb *libsb;
     Libgb *libgb;
     Libis *libis;
+    locale_t c_locale;
     LibjToStringOptions *to_string_options;
     LibsbBuilder *builder;
     int depth;

@@ -176,17 +176,14 @@ static LibjError append_number(Libj *libj, const char *number) {
     LibsbBuilder *builder = NULL;
     char *good_number = NULL; // number with locale dependent decimal comma replaced with '.'
     size_t good_number_size = 0;
+    locale_t previous_locale = uselocale(0);
     if (!libj || !number) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
     }
+    uselocale(libj->c_locale);
     err = ESB(libsb_create(libj->libsb, &builder));
     if (err) goto end;
-    /* TODO: This is not thread safe. Instead use uselocale(). Example:
-     * locale_t c_locale = newlocae(LC_ALL_MASK, "C", (locale_t) 0);
-     * uselocale(c_locale);
-     * libsb_append(libj->libsb, builder, "%s", number);
-     * uselocale(LC_GLOBAL_LOCALE); */
     err = ESB(libsb_append(libj->libsb, builder, "%s", number));
     if (err) goto end;
     struct lconv * lconv = localeconv();
@@ -197,6 +194,7 @@ static LibjError append_number(Libj *libj, const char *number) {
     err = E(append_fragment(libj, "%s", good_number));
     if (err) goto end;
 end:
+    uselocale(previous_locale);
     free(good_number);
     ESB(libsb_destroy(libj->libsb, &builder));
     return err;

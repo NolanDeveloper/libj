@@ -575,12 +575,14 @@ end:
 
 static LibjError consume_fractional(Libj *libj, LibisInputStream *input, LibgbBuffer *buffer) {
     LibjError err = LIBJ_ERROR_OK;
+    locale_t previous_locale = uselocale(0);
     char c;
     bool eof;
     if (!libj || !input || !buffer) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
     }
+    uselocale(libj->c_locale);
     err = EIS(libis_lookahead(libj->libis, input, &eof, 1, &c));
     if (err) goto end;
     if ('.' == c) {
@@ -595,6 +597,7 @@ static LibjError consume_fractional(Libj *libj, LibisInputStream *input, LibgbBu
         if (err) goto end;
     }
 end:
+    uselocale(previous_locale);
     return err;
 }
 

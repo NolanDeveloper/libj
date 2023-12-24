@@ -12,3 +12,4 @@ target_link_libraries(libj
         PUBLIC libis
         PUBLIC libsb
         PUBLIC libutf)
+

@@ -62,6 +62,7 @@ end:
     ++number_of_tests;
     if (success) {
         ++number_of_tests_passed;
+        printf("PASS %s\n", path);
     } else {
         printf("FAIL %s\n", path);
     }
@@ -127,7 +128,7 @@ int main(int argc, char *argv[]) {
             continue;
         }
         const char *extension = strrchr(entry->d_name, '.');
-        if (!extension || strcmp(extension, ".json") || (entry->d_name[0] != 'n' && entry->d_name[0] != 'y')) {
+        if (!extension || strcmp(extension, ".json") || !strchr("ny", entry->d_name[0])) {
             continue;
         }
         LibsbError e = libsb_create(libsb, &builder);
@@ -152,10 +153,16 @@ int main(int argc, char *argv[]) {
         path = NULL;
         content = NULL;
     }
-    if (number_of_tests_passed != number_of_tests) {
+    if (number_of_tests == 0) {
+        err = -1;
+        printf("No tests found here: %s\n", json_test_suite_path);
         goto end;
     }
-    printf("Success!\n");
+    if (number_of_tests_passed != number_of_tests) {
+        err = -1;
+        goto end;
+    }
+    printf("Success! (%d)\n");
     err = EXIT_SUCCESS;
 end:
     if (json_test_suite_dir) {

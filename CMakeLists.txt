@@ -8,24 +8,24 @@ include(FetchContent)
 set(CMAKE_C_STANDARD 11)
 
 FetchContent_Declare(
-        libgb
-        GIT_REPOSITORY https://github.com/nolanrus/libgb.git
-        GIT_TAG        bcebe9ef9ec50ffdd52df61dc9e3892e7ef4f1c9
+    libgb
+    GIT_REPOSITORY https://github.com/nolanrus/libgb.git
+    GIT_TAG        bcebe9ef9ec50ffdd52df61dc9e3892e7ef4f1c9
 )
 FetchContent_Declare(
-        libis
-        GIT_REPOSITORY https://github.com/nolanrus/libis.git
-        GIT_TAG        b2705de696e4a32044fafc1e3740e16e436db5de
+    libis
+    GIT_REPOSITORY https://github.com/nolanrus/libis.git
+    GIT_TAG        b2705de696e4a32044fafc1e3740e16e436db5de
 )
 FetchContent_Declare(
-        libsb
-        GIT_REPOSITORY https://github.com/nolanrus/libsb.git
-        GIT_TAG        f94138109f24eba852b8ea2d464ce7bed9b487e9
+    libsb
+    GIT_REPOSITORY https://github.com/nolanrus/libsb.git
+    GIT_TAG        f94138109f24eba852b8ea2d464ce7bed9b487e9
 )
 FetchContent_Declare(
-        libutf
-        GIT_REPOSITORY https://github.com/nolanrus/libutf.git
-        GIT_TAG        07245f57a12b1a14da3b394af37ee2407e8c1668
+    libutf
+    GIT_REPOSITORY https://github.com/nolanrus/libutf.git
+    GIT_TAG        07245f57a12b1a14da3b394af37ee2407e8c1668
 )
 FetchContent_MakeAvailable(libgb libis libsb libutf)
 

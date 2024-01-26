@@ -162,7 +162,7 @@ int main(int argc, char *argv[]) {
         err = -1;
         goto end;
     }
-    printf("Success! (%d)\n");
+    printf("Success!\n");
     err = EXIT_SUCCESS;
 end:
     if (json_test_suite_dir) {

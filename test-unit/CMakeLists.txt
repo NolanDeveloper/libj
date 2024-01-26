@@ -7,3 +7,4 @@ target_link_libraries(libj_tests
         PUBLIC libj)
 
 add_test(unit_test libj_tests)
+

@@ -29,10 +29,18 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libgb libis libsb libutf)
 
+if (BUILD_TESTING)
+    if (CMAKE_C_COMPILER_ID STREQUAL "Clang")
+        add_compile_options(-fsanitize=fuzzer-no-link,address)
+        add_link_options(-fsanitize=fuzzer-no-link,address)
+    endif()
+endif()
+
 add_subdirectory(include)
 add_subdirectory(src)
 
-if(BUILD_TESTING)
+if (BUILD_TESTING)
     add_subdirectory(test-unit)
     add_subdirectory(test-json-test-suite)
+    add_subdirectory(test-libfuzzer)
 endif()

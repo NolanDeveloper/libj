@@ -631,6 +631,7 @@ end:
 LibjError libj_parse_value_number(Libj *libj, LibjJson **json, LibisInputStream *input) {
     LibjError err = LIBJ_ERROR_OK;
     LibgbBuffer *buffer = NULL;
+    LibjJson *json_number = NULL;
     if (!libj || !json || !input) {
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
@@ -646,15 +647,18 @@ LibjError libj_parse_value_number(Libj *libj, LibjJson **json, LibisInputStream 
     char null = '\0';
     err = EGB(libgb_append_buffer(libj->libgb, buffer, &null, 1));
     if (err) goto end;
-    *json = malloc(sizeof(LibjJson));
-    if (!*json) {
+    json_number = malloc(sizeof(LibjJson));
+    if (!json_number) {
         err = LIBJ_ERROR_OUT_OF_MEMORY;
         goto end;
     }
-    (*json)->type = LIBJ_TYPE_NUMBER;
-    err = EGB(libgb_destroy_into(libj->libgb, &buffer, &(*json)->string.value, &(*json)->string.size));
+    json_number->type = LIBJ_TYPE_NUMBER;
+    err = EGB(libgb_destroy_into(libj->libgb, &buffer, &json_number->string.value, &json_number->string.size));
     if (err) goto end;
+    *json = json_number;
+    json_number = NULL;
 end:
+    free(json_number);
     EGB(libgb_destroy(libj->libgb, &buffer));
     return err;
 }
@@ -711,6 +715,12 @@ end:
 }
 
 LibjError libj_from_string(Libj *libj, LibjJson **json, const char *input_string, const char **error_string) {
+    return E(libj_from_string_ex(libj, json, input_string, strlen(input_string), error_string));
+}
+
+LibjError libj_from_string_ex(Libj *libj, LibjJson **json,
+                              const char *input_string, size_t input_size,
+                              const char **error_string) {
     LibjError err = LIBJ_ERROR_OK;
     LibisSource *source = NULL;
     LibisInputStream *input = NULL;
@@ -718,7 +728,7 @@ LibjError libj_from_string(Libj *libj, LibjJson **json, const char *input_string
         err = LIBJ_ERROR_BAD_ARGUMENT;
         goto end;
     }
-    err = EIS(libis_source_create_from_buffer(libj->libis, &source, input_string, strlen(input_string), false));
+    err = EIS(libis_source_create_from_buffer(libj->libis, &source, input_string, input_size, false));
     if (err) goto end;
     err = EIS(libis_create(libj->libis, &input, &source, 1));
     if (err) goto end;

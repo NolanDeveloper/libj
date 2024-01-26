@@ -174,6 +174,10 @@ LibjError libj_null_create(Libj *libj, LibjJson **json);
 LibjError libj_to_string_ex(Libj *libj, LibjJson *json, char **json_string, size_t *json_string_size,
                             LibjToStringOptions *options);
 
+LibjError libj_from_string_ex(Libj *libj, LibjJson **json,
+                              const char *input_string, size_t input_size,
+                              const char **error_string);
+
 /* Parse json from byte sequence possibly containing '\0'. */
 LibjError libj_from_input_stream(Libj *libj, LibjJson **json, LibisInputStream *input, const char **error_string);
 

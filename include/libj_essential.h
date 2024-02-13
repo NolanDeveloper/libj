@@ -182,3 +182,4 @@ LibjError libj_from_string_ex(Libj *libj, LibjJson **json,
 LibjError libj_from_input_stream(Libj *libj, LibjJson **json, LibisInputStream *input, const char **error_string);
 
 #endif
+

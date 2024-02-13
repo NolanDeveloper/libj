@@ -182,3 +182,4 @@ void sanity_check(void) {
     E(libj_free_json(libj, &json_with_escape));
     free(json_string);
 }
+

@@ -177,3 +177,4 @@ LibjError libj_to_string(Libj *libj, LibjJson *json, char **json_string, LibjToS
 LibjError libj_from_string(Libj *libj, LibjJson **json, const char *input_string, const char **error_string);
 
 #endif
+

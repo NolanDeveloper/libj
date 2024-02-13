@@ -11,3 +11,4 @@ LibjError libj_string_duplicate(Libj *libj, const char *src, size_t size, char *
 LibjError libj_skip_whitespace(Libj *libj, LibisInputStream *input, bool *eof, char *c);
 
 #endif
+

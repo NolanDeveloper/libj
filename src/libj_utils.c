@@ -38,3 +38,4 @@ LibjError libj_skip_whitespace(Libj *libj, LibisInputStream *input, bool *eof, c
 end:
     return err;
 }
+
